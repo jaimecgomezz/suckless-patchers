@@ -66,7 +66,7 @@ git clone https://github.com/jaimecgomezz/suckless-patchers.git
 cp ~/suckless-patchers/handle ~/dmenu
 ```
 
-And that’s it! You can repeat this steps on every available distro listed at the beginning.
+And that’s it! You can repeat the last step on every available distro listed at the beginning.
 
 Running `handle` will output something different on each one, this is because they all source a file called `handle-usage` which lists all the patches available for that specific distro.
 
