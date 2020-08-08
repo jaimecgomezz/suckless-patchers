@@ -64,6 +64,9 @@ git clone https://github.com/jaimecgomezz/suckless-patchers.git
 
 # Copy the 'handle' utility to the 'dmenu' distro
 cp ~/suckless-patchers/handle ~/dmenu
+
+# Copy the 'test-patch' utility to the 'dmenu' distro (optional)
+cp ~/suckless-patchers/test-patch ~/dmenu
 ```
 
 And that’s it! You can repeat the last step on every available distro listed at the beginning.
