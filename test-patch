@@ -15,7 +15,8 @@ SUCCEEDED=0
 SUBJECT="$1"
 
 print_usage() { echo "Usage: test-patch [PATCH]" ; exit 1 ; }
-print_invalid() { echo "[!] ( $1 ) isn't a valid patch" ; exit 1 ; } 
+print_invalid() { echo "[!] ( $1 ) could't be applied" ; exit 1 ; }
+print_unnecesary_test() { echo "No patches to test with." ; exit 1 ; }
 print_stash_warning() { echo "[!] Please commit your changes or stash them before proceeding" ; exit 1 ; }
 
 use_patch() { ./handle patch "$1" -q > /dev/null ; }
@@ -37,6 +38,8 @@ report_results() {
 use_patch "$SUBJECT" || print_invalid "$SUBJECT"
 
 patches="$( ls -l patches/*patch | grep -v "$SUBJECT" | sed -E 's/(^.*\/)(.*)(\..*)/\2/g' )"
+
+[ ! -z "$patches" ] || print_unnecesary_test
 
 while IFS= read -r patch; do
   use_patch "$patch" || report_fail "$patch"
