@@ -10,6 +10,23 @@ Simple utilities that will take care of patches for you. Lets make `suckless sof
 
 
 
+## Installation
+
+```sh
+# Assuming your suckless distros are in ~/
+git clone https://github.com/jaimecgomezz/suckless-patchers.git
+
+# Copy the 'handle' utility to the 'dmenu' distro
+cp ~/suckless-patchers/handle ~/dmenu
+
+# Copy the 'test-patch' utility to the 'dmenu' distro (optional)
+cp ~/suckless-patchers/test-patch ~/dmenu
+```
+
+And that’s it! You can repeat the last steps on every available distro listed under the [Supported tools](https://github.com/jaimecgomezz/suckless-patchers#supported-tools) section.
+
+
+
 ## Patching
 
 [handle](https://github.com/jaimecgomezz/dmenu/blob/master/handle) will patch your distro, just run:
@@ -34,7 +51,7 @@ The rest of ACTIONS, PATCHES and OPTIONS available on any distro can be found ru
 
 ## Testing patches
 
-For those willing to support the projects, the [test-patch](https://github.com/jaimecgomezz/dmenu/blob/master/test-patch) script is your friend. It will test the integration of a given patch with the rest of patches listed under the `patches` folder. Whenever you need know if the patch you’ve been working on its ready, use it!
+For those willing to support the projects, the [test-patch](https://github.com/jaimecgomezz/dmenu/blob/master/test-patch) script is your friend. It will test your patch against the rest listed under the `patches` folder. Use it whenever your patch is ready!
 
 `````sh
 # Usage: ./test-patch PATCH
@@ -42,38 +59,27 @@ For those willing to support the projects, the [test-patch](https://github.com/j
 # Testing the patch A
 ./test-patch A
 ...
-B			Ok	# Means both patches can be used simultaneously
-C			Failed!	# Means that the both patches have conflicts integrating together
+B			Ok	# Means both patches (A & B) can be used simultaneously
+C			Failed!	# Means both patches (A & C) have conflicts integrating together
 ...
 `````
 
-When the tests are finished, `test-patch` will report the results, which should be included in your PR. If a patch “fails” you should:
+When the tests are finished, `test-patch` will report the results (which should be included in your PR).
 
-- Make the older patch compatible with the new patch. Not on a functional level, but in a code level.
-- Warn about the incompatibility of both patches in the `handle-usage` doc.
+Note: `test-patch` WONT test your patch functionality (if it does whats it’s suppose to do), it only makes you aware of patches that might be interfering with it (e.g., those that modify the same line of code)   
 
-WARNING: This utility DO NOT test the patch functionality (if it does whats it’s suppose to do), it only makes you aware of any patch that might have troubles integrating with it .
+If a patch fails you should:
+
+- [Make patches compatible](https://github.com/jaimecgomezz/dmenu#making-patches-compatible).
+- Warn about the functional incompatibility of both patches in the `handle-usage` doc,  see [this example](https://github.com/jaimecgomezz/dmenu/commit/0837f8e89ff01dc83577f5ad7d373dc436270e1c?short_path=04c6e90#diff-402500c027bafa15c6dcc413f6e48ab7).
 
 
 
-## Installation
+## Making patches compatible
 
-```sh
-# Assuming your suckless distros are in ~/
-git clone https://github.com/jaimecgomezz/suckless-patchers.git
+Take a look at these [code](https://github.com/jaimecgomezz/dmenu/blob/0a2fce0fefe945ac724bae3a71d85a303f7fa878/dmenu.c#L263-L270). At that moment the [grid patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/grid.patch) was already implemented, the next was the [vertfull patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/vertfull.patch). They both modify [dmenu](https://github.com/jaimecgomezz/dmenu) in a similar way so they `can't be used simultaneously`. Nevertheless, you should be able to use one or another, so they should integrate together, at list in code. To make them compatible some [changes](https://github.com/jaimecgomezz/dmenu/commit/50433eff0db31f3b7e4c1312bae977b8d7ec7246) were done, so now the `vertfull patch` can be implemented like [this](https://github.com/jaimecgomezz/dmenu/commit/0eb115af90dc06b099e2009abf4f35b0ff19e663).
 
-# Copy the 'handle' utility to the 'dmenu' distro
-cp ~/suckless-patchers/handle ~/dmenu
-
-# Copy the 'test-patch' utility to the 'dmenu' distro (optional)
-cp ~/suckless-patchers/test-patch ~/dmenu
-```
-
-And that’s it! You can repeat the last step on every available distro listed at the beginning.
-
-Running `handle` will output something different on each one, this is because they all source a file called `handle-usage` which lists all the patches available for that specific distro.
-
- 
+Of course you can create an issue if something wasn’t clear enough, I’ll be glad to help!
 
 
 
