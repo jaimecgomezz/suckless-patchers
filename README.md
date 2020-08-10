@@ -23,13 +23,13 @@ cp ~/suckless-patchers/handle ~/dmenu
 cp ~/suckless-patchers/test-patch ~/dmenu
 ```
 
-And that’s it! You can repeat the last steps on every available distro listed under the [Supported tools](https://github.com/jaimecgomezz/suckless-patchers#supported-tools) section.
+And that’s it! You can repeat the last steps on every project listed under the [Supported tools](https://github.com/jaimecgomezz/suckless-patchers#supported-tools) section.
 
 
 
 ## Patching
 
-[handle](https://github.com/jaimecgomezz/dmenu/blob/master/handle) will patch your distro, just run:
+[handle](https://github.com/jaimecgomezz/dmenu/blob/master/handle) will patch your distros. For example, to use patch **A** :
 
 ```sh
 # Usage: ./handle ACTION PATCH [OPTIONS]
@@ -37,11 +37,11 @@ And that’s it! You can repeat the last steps on every available distro listed 
 # Installing patch A
 ./handle patch A
 
-# Removing border A
+# Removing patch A
 ./handle depatch A
 ```
 
-The rest of ACTIONS, PATCHES and OPTIONS available on any distro can be found running:
+The  `ACTIONS`, `PATCHES` and `OPTIONS` available on your distro can be found running:
 
 ```sh
 ./handle
@@ -51,7 +51,7 @@ The rest of ACTIONS, PATCHES and OPTIONS available on any distro can be found ru
 
 ## Testing patches
 
-For those willing to support the projects, the [test-patch](https://github.com/jaimecgomezz/dmenu/blob/master/test-patch) script is your friend. It will test your patch against the rest listed under the `patches` folder. Use it whenever your patch is ready!
+For those willing to support the projects, the [test-patch](https://github.com/jaimecgomezz/dmenu/blob/master/test-patch) script is your friend. It will test your patch against the rest of patches listed under the `patches` folder. Use it whenever your patch is ready!
 
 `````sh
 # Usage: ./test-patch PATCH
@@ -60,7 +60,7 @@ For those willing to support the projects, the [test-patch](https://github.com/j
 ./test-patch A
 ...
 B			Ok	# Means both patches (A & B) can be used simultaneously
-C			Failed!	# Means both patches (A & C) have conflicts integrating together
+C			Failed!	# Means that the patches (A & C) have conflicts integrating together
 ...
 `````
 
@@ -70,16 +70,16 @@ Note: `test-patch` WONT test your patch functionality (if it does whats it’s s
 
 If a patch fails you should:
 
-- [Make patches compatible](https://github.com/jaimecgomezz/dmenu#making-patches-compatible).
-- Warn about the functional incompatibility of both patches in the `handle-usage` doc,  see [this example](https://github.com/jaimecgomezz/dmenu/commit/0837f8e89ff01dc83577f5ad7d373dc436270e1c?short_path=04c6e90#diff-402500c027bafa15c6dcc413f6e48ab7).
+- [Make patches code-compatible](https://github.com/jaimecgomezz/dmenu#making-patches-compatible).
+- Warn about the functional incompatibility of the patches, in the `handle-usage` doc of the project.  See [this example](https://github.com/jaimecgomezz/dmenu/commit/0837f8e89ff01dc83577f5ad7d373dc436270e1c?short_path=04c6e90#diff-402500c027bafa15c6dcc413f6e48ab7).
 
 
 
-## Making patches compatible
+## Making patches code-compatible
 
-Take a look at these [code](https://github.com/jaimecgomezz/dmenu/blob/0a2fce0fefe945ac724bae3a71d85a303f7fa878/dmenu.c#L263-L270). At that moment the [grid patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/grid.patch) was already implemented, the next was the [vertfull patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/vertfull.patch). They both modify [dmenu](https://github.com/jaimecgomezz/dmenu) in a similar way so they `can't be used simultaneously`. Nevertheless, you should be able to use one or another, so they should integrate together, at list in code. To make them compatible some [changes](https://github.com/jaimecgomezz/dmenu/commit/50433eff0db31f3b7e4c1312bae977b8d7ec7246) were done, so now the `vertfull patch` can be implemented like [this](https://github.com/jaimecgomezz/dmenu/commit/0eb115af90dc06b099e2009abf4f35b0ff19e663).
+Take a look at this [code](https://github.com/jaimecgomezz/dmenu/blob/0a2fce0fefe945ac724bae3a71d85a303f7fa878/dmenu.c#L263-L270). At that moment, the [grid patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/grid.patch) had already been supported, next, I wanted to add the [vertfull patch](https://github.com/jaimecgomezz/dmenu/blob/master/patches/vertfull.patch). They both modify [dmenu](https://github.com/jaimecgomezz/dmenu) in a similar way so they `can't be used simultaneously`. Nevertheless, you should be able to use one or another. This [changes](https://github.com/jaimecgomezz/dmenu/commit/50433eff0db31f3b7e4c1312bae977b8d7ec7246) made possible to finally [implement](https://github.com/jaimecgomezz/dmenu/commit/0eb115af90dc06b099e2009abf4f35b0ff19e663) the `vertfull patch`.
 
-Of course you can create an issue if something wasn’t clear enough, I’ll be glad to help!
+Of course you can [ask a question](https://github.com/jaimecgomezz/suckless-patchers/issues/new?template=Support.md) if something wasn’t clear enough, I’ll be glad to help!
 
 
 
