@@ -19,9 +19,10 @@ print_invalid() { echo "[!] ( $1 ) could't be applied" ; exit 1 ; }
 print_unnecesary_test() { echo "No patches to test with." ; exit 1 ; }
 print_stash_warning() { echo "[!] Please commit your changes or stash them before proceeding" ; exit 1 ; }
 
-use_patch() { ./handle patch "$1" -q > /dev/null ; }
-use_depatch() { ./handle depatch "$1" -q > /dev/null ; }
+use_patch() { ./handle patch "$1" > /dev/null 2>&1 ; }
+use_depatch() { ./handle depatch "$1" > /dev/null 2>&1 ; }
 reset_test() { git stash > /dev/null 2>&1 ; use_patch "$SUBJECT" ; }
+reset_origin() { git stash > /dev/null ; cat /dev/null > applied ; }
 
 report_fail() { printf "%-30s %-30s\n" "${1}" "Failed!" ; FAILED=$((FAILED+1)) ; }
 report_success() { printf "%-30s %-30s\n" "${1}" "Ok" ; SUCCEEDED=$((SUCCEEDED+1)) ; }
@@ -37,7 +38,12 @@ report_results() {
 
 use_patch "$SUBJECT" || print_invalid "$SUBJECT"
 
-patches="$( ls -l patches/*patch | grep -v "$SUBJECT" | sed -E 's/(^.*\/)(.*)(\..*)/\2/g' )"
+patches="$(
+  ls -l patches/*patch \
+    | awk '{print $NF}' \
+    | grep -v "${SUBJECT}.patch" \
+    | sed -E 's/(patches\/)(.*)(\.patch)/\2/g'
+)"
 
 [ ! -z "$patches" ] || print_unnecesary_test
 
@@ -46,5 +52,5 @@ while IFS= read -r patch; do
   use_depatch "$patch" && report_success "$patch" || reset_test
 done <<< "$patches"
 
-use_depatch "$SUBJECT"
+use_depatch "$SUBJECT" || reset_origin
 report_results
